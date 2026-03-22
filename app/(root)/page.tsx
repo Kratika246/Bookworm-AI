@@ -1,8 +1,9 @@
-"use client";
+
 import { Search, Plus, Upload, Cpu, Mic } from "lucide-react";
 import BookCard from "@/components/ui/BookCard";
+import { getAllBooks } from "@/lib/actions/book.actions";
 
-export const books = [
+export const sampleBooks = [
   {
     _id: '1',
     title: 'Clean Code',
@@ -51,7 +52,9 @@ const steps = [
   { number: 3, icon: Mic, title: "Voice Chat", desc: "Discuss with AI" },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const bookResults = await getAllBooks();
+  const bookss = bookResults.success? bookResults.data?? []: [];
   return (
     <div
       className="min-h-screen font-sans"
@@ -74,6 +77,7 @@ export default function HomePage() {
               Convert your books into interactive AI conversations.
               <br />
               Listen, learn, and discuss your favorite reads.
+              x
             </p>
             <button className="flex items-center gap-2 bg-white text-stone-800 text-sm font-semibold px-5 py-2.5 rounded-full shadow-sm hover:shadow-md transition-all hover:bg-stone-50 border border-stone-200">
               <Plus className="w-4 h-4" />
@@ -120,7 +124,7 @@ export default function HomePage() {
 
         {/* Book Grid */}
         <div className="grid grid-cols-5 gap-5 pb-12">
-          {books.map((book) => (
+          {bookss.map((book) => (
             <BookCard
               key={book._id}
               title={book.title}
