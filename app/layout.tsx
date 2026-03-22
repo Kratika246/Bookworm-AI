@@ -1,16 +1,38 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import localfont  from 'next/font/local';
+import Navbar from "@/components/ui/navbar";
+import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const podkova = localfont({
+    src: [
+      {
+        path: '../public/fonts/Podkova/static/Podkova-Regular.ttf',
+        weight: '400',
+      },
+      {
+        path: '../public/fonts/Podkova/static/Podkova-Bold.ttf'
+      }
+    ],
+    variable: '--font-podkova'
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const funnel = localfont({
+    src: [
+      {
+        path: '../public/fonts/Funnel_Sans/static/FunnelSans-Regular.ttf',
+        weight: '400',
+      },
+      {
+        path: '../public/fonts/Podkova/static/Podkova-Bold.ttf'
+      }
+    ],
+    variable: '--font-funnel'
 });
+
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,9 +47,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${podkova.className} ${funnel.variable} antialiased`}
       >
-        {children}
+        <ClerkProvider>
+        <Navbar/>
+         
+          {children}
+          <Toaster />
+        </ClerkProvider>
       </body>
     </html>
   );
